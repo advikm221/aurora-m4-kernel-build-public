@@ -1,2 +1,5 @@
 # SPDX-License-Identifier: GPL-2.0-only
 vdso.lds
+# Sources needed for the VDSO build (un-ignore .S assembly sources
+# that are excluded by the root .gitignore's "*.s" pattern)
+!*.S
