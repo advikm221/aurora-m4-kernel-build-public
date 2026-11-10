@@ -21,12 +21,12 @@ jobs:
           sudo apt-get install -y -q build-essential bc bison flex libssl-dev libncurses-dev libelf-dev clang-18 lld-18 llvm-18
           echo "/usr/lib/llvm-18/bin" >> "$GITHUB_PATH"
 
-      - name: Build aarch64 kernel DTBs
+      - name: Build aarch64 kernel Image and DTBs
         run: |
           make ARCH=arm64 CROSS_COMPILE= LLVM=1 CC=clang LD=ld.lld defconfig
           scripts/config --enable DRM_APPLE --enable DRM_APPLE_DCP_T8132
           make ARCH=arm64 CROSS_COMPILE= LLVM=1 CC=clang LD=ld.lld olddefconfig
-          make ARCH=arm64 CROSS_COMPILE= LLVM=1 CC=clang LD=ld.lld -j$(nproc) dtbs
+          make ARCH=arm64 CROSS_COMPILE= LLVM=1 CC=clang LD=ld.lld -j$(nproc) Image dtbs
 
       - uses: actions/upload-artifact@v4
         with:
