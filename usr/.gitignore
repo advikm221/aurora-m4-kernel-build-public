@@ -2,3 +2,5 @@
 /gen_init_cpio
 /initramfs_data.cpio
 /initramfs_inc_data
+# Un-ignore .S assembly sources excluded by root .gitignore's "*.s" pattern
+!*.S

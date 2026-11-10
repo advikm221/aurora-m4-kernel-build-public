@@ -47,6 +47,8 @@
 *.rpm
 *.rsi
 *.s
+# .S (uppercase) are preprocessed assembly source files, not compiler output
+!*.S
 *.so
 *.so.dbg
 *.spdx.json
