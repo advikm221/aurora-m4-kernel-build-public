@@ -60,6 +60,10 @@ endif
 targets += vdso.lds
 CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
 
+# Linker script preprocessor for vdso.lds
+$(obj)/vdso.lds: $(src)/vdso.lds.S FORCE
+	$(call if_changed_dep,cpp_lds_S)
+
 # Link rule for the .so file, .lds has to be first
 $(obj)/vdso.so.dbg: $(obj)/vdso.lds $(obj-vdso) FORCE
 	$(call if_changed,vdsold_and_vdso_check)
