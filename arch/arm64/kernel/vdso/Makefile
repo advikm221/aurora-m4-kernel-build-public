@@ -59,6 +59,7 @@ endif
 
 targets += vdso.lds
 CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
+$(warning VDSO DEBUG: obj=$(obj) src=$(src) srcroot=$(srcroot) srctree=$(srctree))
 
 # Linker script preprocessor for vdso.lds
 $(obj)/vdso.lds: $(src)/vdso.lds.S FORCE
