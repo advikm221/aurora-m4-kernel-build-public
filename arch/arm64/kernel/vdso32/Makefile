@@ -115,6 +115,10 @@ obj-vdso := $(c-obj-vdso) $(c-obj-vdso-gettimeofday) $(asm-obj-vdso)
 targets += vdso.lds
 CPPFLAGS_vdso.lds += -P -C -U$(ARCH)
 
+# Linker script preprocessor for vdso.lds
+$(obj)/vdso.lds: $(src)/vdso.lds.S FORCE
+	$(call if_changed_dep,cpp_lds_S)
+
 # Strip rule for vdso.so
 $(obj)/vdso.so: OBJCOPYFLAGS := -S
 $(obj)/vdso.so: $(obj)/vdso32.so.dbg FORCE
