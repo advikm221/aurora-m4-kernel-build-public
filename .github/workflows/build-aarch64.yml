@@ -1,0 +1,36 @@
+name: Build aarch64 kernel
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q build-essential bc bison flex libssl-dev libncurses-dev
+
+      - name: Build aarch64 kernel
+        run: |
+          make ARCH=arm64 CROSS_COMPILE= defconfig
+          scripts/config --enable DRM_APPLE --enable DRM_APPLE_DCP_T8132
+          make ARCH=arm64 CROSS_COMPILE= olddefconfig
+          make ARCH=arm64 CROSS_COMPILE= -j$(nproc) Image dtbs
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aarch64-build
+          path: |
+            arch/arm64/boot/Image
+            arch/arm64/boot/dts/apple/*.dtb
+          retention-days: 7
